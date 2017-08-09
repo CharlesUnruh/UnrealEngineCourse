@@ -1,2 +1,40 @@
-Section_02/.vs/
+#
+#
+##
+####
+########
+##################
+#####################################
+## Unreal Engine 4 Generated Files ##
+#####################################
+**/Binaries/
+**/Build/
+**/DerivedDataCache/
+**/Intermediate/
+**/Saved/
+**/**_build
+Section_03/Building_Escape/Content/StarterContent/
+**_BuildData.uasset
+#
+#
+##
+####
+#########
+###################
+###################################
+##################################################
+## Visual Studio Community 2017 Generated Files ##
+##################################################
+Section_03/Building_Escape/.vs/
+**/.vs/
+#
+#
+##
+###
+#####
+##########
+####################
+## Specific Files ##
+####################
 Section_02/BullCowGame/Debug/
+Section_03/Building_Escape/.vs/

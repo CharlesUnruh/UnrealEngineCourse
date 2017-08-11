@@ -13,8 +13,10 @@
 **/Intermediate/
 **/Saved/
 **/**_build
-Section_03/Building_Escape/Content/StarterContent/
+Section_03/Building_Escape/Content/StarterContent/Textures
+Section_03/Building_Escape/Content/StarterContent/HDRI
 **_BuildData.uasset
+**_BuiltData.uasset
 #
 #
 ##

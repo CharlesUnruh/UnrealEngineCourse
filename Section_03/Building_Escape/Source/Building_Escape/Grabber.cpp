@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Components/InputComponent.h"
 #include "DrawDebugHelpers.h"
 
 
@@ -17,6 +18,10 @@ UGrabber::UGrabber()
 	// ...
 }
 
+void UGrabber::Grab()
+{
+	
+}
 
 // Called when the game starts
 void UGrabber::BeginPlay()
@@ -24,8 +29,29 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"));
-	
+	//UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty!"));
+
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (PhysicsHandle)
+	{
+		//Physics Handle is found
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("[Grabber]{%s}<Missing Component> NO PHYSICS HANDLE COMPONENT FOUND ON OBJECT!"), *(GetOwner()->GetName()));
+	}
+
+	Input = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (Input)
+	{
+		///Input is found
+		Input->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("[Grabber]{%s}<Missing Component> NO INPUT COMPONENT FOUND ON OBJECT!"), *(GetOwner()->GetName()));
+	}
+
 }
 
 
@@ -36,7 +62,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 	// ...
 
-	// get player view point
+	/// get player view point
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
@@ -46,9 +72,25 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//UE_LOG(LogTemp, Warning, TEXT("[Grabber]{%s} Position: <%s> Rotation: <%s>"), *(GetOwner()->GetName()), *(PlayerViewPointLocation.ToString()), *(PlayerViewPointRotation.ToString()));
 
 	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
-	DrawDebugLine(GetWorld(), PlayerViewPointLocation, LineTraceEnd, FColor(255,0,0,128),true,1.0f,0,1.0f);
-	// ray-cast to reach distance
+	DrawDebugLine(GetWorld(), PlayerViewPointLocation, LineTraceEnd, FColor(255, 0, 0, 128), true, 10.0f, 0, 1.0f);
 
-	//see what we hit
+	/// ray-cast to reach distance
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), true, GetOwner());
+
+	FHitResult Hit;
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT Hit,
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParameters
+	);
+
+	///see what we hit
+	AActor* ActorHit = Hit.GetActor();
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[Grabber]{%s} Trace Hit: %s"), *(GetOwner()->GetName()), *(ActorHit->GetName()));
+	}
 }
 

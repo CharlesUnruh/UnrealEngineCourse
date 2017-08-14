@@ -30,13 +30,11 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-		float Reach = 100.0f;
+		float Reach = 200.0f;
 	
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* Input = nullptr;
-
-	FVector LineTraceEnd;
 
 	void FindPhysicsHandleComponent();
 	void SetupInputComponent();
@@ -47,8 +45,8 @@ private:
 	// Release a grabbed object
 	void Release();
 
-	//Also Updates LineTraceEnd
-	void UpdateGrabLineTrace();
+	FVector GetReachLineEnd();
+	FVector GetReachLineStart();
 
 	FHitResult GetFirstPhysicsBodyInReach();
 };

@@ -22,17 +22,33 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
 	UPROPERTY(EditAnywhere)
-		float Reach = 80;
+		float Reach = 100.0f;
 	
+
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* Input = nullptr;
 
+	FVector LineTraceEnd;
+
+	void FindPhysicsHandleComponent();
+	void SetupInputComponent();
+
 	// Ray-cast and grab what's in reach
 	void Grab();
+
+	// Release a grabbed object
+	void Release();
+
+	//Also Updates LineTraceEnd
+	void UpdateGrabLineTrace();
+
+	FHitResult GetFirstPhysicsBodyInReach();
 };

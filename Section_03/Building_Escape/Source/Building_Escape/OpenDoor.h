@@ -29,15 +29,18 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	float GetTotalMassOfActorsOnPlate() const;
+	float GetOpenThreshold() const;
+
 private:
 	UPROPERTY(EditAnywhere)
 	float OpenAngle = -90.0f;
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+	float OpenThreshold = 50.0f;
 
-	UPROPERTY(VisibleAnywhere)
-	AActor* ActorThatOpens;
+	UPROPERTY(EditAnywhere)
+	ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
 	float CloseDelay = 1.0f;
